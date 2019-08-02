@@ -1,0 +1,16 @@
+module_version: 1.0
+
+var:
+  - name: paths
+    default:
+      - /root/*.log
+    os.darwin: [""]
+    os.linux: 
+      - /root/log.txt
+    os.windows:
+      - d:/*.log
+
+ingest_pipeline: ingest/default.json
+input: config/debug.yml
+
+

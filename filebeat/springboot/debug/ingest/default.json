@@ -1,0 +1,37 @@
+{
+  "description": "Pipeline for parsing springboot debug logs",
+  "processors": [{
+    "grok": {
+      "field": "message",
+      "patterns":[
+        "%{TIMESTAMP_ISO8601:springboot.debug.timestamp}%{SPACE}%{LOGLEVEL:level}%{SPACE}%{NUMBER:pid}%{SPACE}---%{SPACE}\\[%{DATA:threadname}\\]%{SPACE}%{DATA:classname}%{SPACE}:%{SPACE}%{GREEDYMULTILINE:message}",
+        "%{GREEDYDATA:message}"
+      ],
+      "ignore_missing": true,
+      "pattern_definitions": {
+        "GREEDYMULTILINE": "(.|\n)*"
+      }
+    }
+  },
+  {
+    "date": {
+      "field": "springboot.debug.timestamp",
+      "target_field": "@timestamp",
+      "formats": ["yyyy-MM-dd HH:mm:ss.SSS"],
+      "timezone": "Asia/Shanghai",
+      "ignore_failure": true
+    }
+  },
+  {
+    "remove": {
+      "field": "springboot.debug.timestamp"
+    }
+
+  }],
+  "on_failure" : [{
+    "set" : {
+      "field" : "error.message",
+      "value" : "{{ _ingest.on_failure_message }}"
+    }
+  }]
+}

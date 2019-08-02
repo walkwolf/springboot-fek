@@ -1,0 +1,8 @@
+# Module: apache
+# Docs: https://www.elastic.co/guide/en/beats/filebeat/7.0/filebeat-module-apache.html
+
+
+- module: springboot
+  debug:
+    enabled: true
+    var.paths: ["/root/log.txt"]

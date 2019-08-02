@@ -41,7 +41,6 @@
 
 
     <build>
-
         <finalName>springboot-fek</finalName>
 		<plugins>
             <plugin>
