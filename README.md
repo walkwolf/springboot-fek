@@ -1,20 +1,26 @@
 # springboot-fek
 
-## Ä¿±ê
+## ç›®æ ‡
 
-µ¥µã°²×°filebeat -> elasticsearch -> kibana ½âÎöspring boot ÈÕÖ¾
+å•ç‚¹å®‰è£…filebeat -> elasticsearch -> kibana è§£æspring boot æ—¥å¿—
 
-FEK·½Ê½£¬ÈÕÖ¾ÊÕ¼¯Ê¹ÓÃfilebeatÊÕ¼¯springbootÈÕÖ¾ÎÄ¼şĞÅÏ¢£¬·¢ËÍÖÁes¡£
+FEKæ–¹å¼ï¼Œæ—¥å¿—æ”¶é›†ä½¿ç”¨filebeatæ”¶é›†springbootæ—¥å¿—æ–‡ä»¶ä¿¡æ¯ï¼Œå‘é€è‡³esã€‚
 
-## ·şÎñÆ÷ÁĞ±í
+## ç¯å¢ƒ
+
+### æœåŠ¡å™¨åˆ—è¡¨
 
 1. 192.168.1.10 filebeat
 2. 192.168.1.11 kibana elaticsearch
 
+### è½¯ä»¶ç¯å¢ƒ
+- jdk 1.8
+- centos 7.6
+- elk 7.3 (current yum latest)
 
-## Ë«»ú×¼±¸
+## åŒæœºå‡†å¤‡
 
-Á½Ì¨»úÆ÷¼ÓÈëELK yum²Ö¿â
+ä¸¤å°æœºå™¨åŠ å…¥ELK yumä»“åº“
 
 ```
 rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
@@ -32,9 +38,9 @@ autorefresh=1
 type=rpm-md
 ```
 
-## es and kibana°²×°
+## es and kibanaå®‰è£…
 
-192.168.1.11 Ö´ĞĞ
+192.168.1.11 æ‰§è¡Œ
 
 ```
 
@@ -45,7 +51,7 @@ yum enable elaticsearch
 yum enable kibana
 ```
 
-### 9200 ·Çlocalhost¿É·ÃÎÊ
+### 9200 élocalhostå¯è®¿é—®
 ```
 vi /etc/elasticsearch/elasticsearch.yml 
 
@@ -53,22 +59,22 @@ network.host: 0.0.0.0
 discovery.seed_hosts: ["0.0.0.0"] 
 ```
 
-### ·Çlocalhost IP¿É·ÃÎÊkibana
+### élocalhost IPå¯è®¿é—®kibana
 ```
 vi /etc/kibana/kibana.yml
 server.host: "192.168.1.11"
 ```
 
-### Æô¶¯
+### å¯åŠ¨
 ```
 yum restart elaticsearch
 yum restart kibana
 ```
 
 
-## filebeat °²×°
+## filebeat å®‰è£…
 
-192.168.1.10 Ö´ĞĞ
+192.168.1.10 æ‰§è¡Œ
 
 ```
 yum -y install filebeat
@@ -76,7 +82,7 @@ yum -y enable filebeat
 vi /etc/filebeat/filebeat.yml 
 ```
 
-### ĞŞ¸ÄfilebeatÉú³ÉÄ¬ÈÏË÷ÒıÃû³Æ
+### ä¿®æ”¹filebeatç”Ÿæˆé»˜è®¤ç´¢å¼•åç§°
 ```
 vi /etc/filebeat/filebeat.yml 
 
@@ -88,14 +94,14 @@ setup.ilm.rollover_alias: "springapp1"
 setup.ilm.pattern: "{now/d}-000001"
 ```
 
-### ÉÏ´«springbootÓ¦ÓÃ½âÎöÄ£¿é
+### ä¸Šä¼ springbootåº”ç”¨è§£ææ¨¡å—
 
-1. ÉÏ´« springboot Ä¿Â¼ÖÁ `/usr/share/filebeat/module` Ä¿Â¼
-2. ÉÏ´« springboot.yum ÎÄ¼şÖÁ `/etc/filebeat/modules.d` Ä¿Â¼
+1. ä¸Šä¼  springboot ç›®å½•è‡³ `/usr/share/filebeat/module` ç›®å½•
+2. ä¸Šä¼  springboot.yum æ–‡ä»¶è‡³ `/etc/filebeat/modules.d` ç›®å½•
 
-### ĞŞ¸ÄĞÂÔöÄ£¿éÓ¦ÓÃÃû³Æ¼°ÊÕ¼¯ÈÕÖ¾À´Ô´
+### ä¿®æ”¹æ–°å¢æ¨¡å—åº”ç”¨åç§°åŠæ”¶é›†æ—¥å¿—æ¥æº
 
-¸ù¾İ×Ô¼ºspringboot Ó¦ÓÃÈÕÖ¾Î»ÖÃ²»Í¬ĞŞ¸ÄÎÄ¼şÄÚÈİ£¬Ä¬ÈÏÊÇ/root/log.txt
+æ ¹æ®è‡ªå·±springboot åº”ç”¨æ—¥å¿—ä½ç½®ä¸åŒä¿®æ”¹æ–‡ä»¶å†…å®¹ï¼Œé»˜è®¤æ˜¯/root/log.txt
 ```
 vi /usr/share/filebeat/module/aipc/debug/manifest.yml
 
@@ -103,62 +109,53 @@ vi /usr/share/filebeat/module/aipc/debug/manifest.yml
       - /root/log.txt
 ```
 
-### ÆôÓÃĞÂÈÕÖ¾ÊÕ¼¯Ä£¿é
+### å¯ç”¨æ–°æ—¥å¿—æ”¶é›†æ¨¡å—
 filebeat modules enable springboot
 
-### Ó¦ÓÃ²¿Êğ
-ÂÔ
+### åº”ç”¨éƒ¨ç½²
+ç•¥
 
-²âÊÔÔ´Âë¿ÉÍ¨¹ı giteee ÏÂÔØ
+æµ‹è¯•æºç å¯é€šè¿‡ giteee ä¸‹è½½
 
 1. git clone 
 2. cd spring-boot-elk
 3. mvn clean package
-4. java -jar spring-boot-elk.jar
+4. java -jar springboot-elk.jar
 
-## ÑéÖ¤
-1. springboot ÈÕÖ¾ `/root/log.txt` ÓĞÄÚÈİ
-2. ä¯ÀÀÆ÷http://192.168.10:8080/test ¿É¿´µ½µ±Ç°ÏµÍ³Ê±¼ä
-3. ä¯ÀÀÆ÷http://192.168.10:8080/fail ¿É`/root/log.txt` ¿´µ½Òì³£¶ÑÕ»ĞÅÏ¢
-4. chrome head ²å¼ş ·ÃÎÊ192.168.1.11:9200 ¿É¿´µ½esË÷ÒıÇé¿ö£¬¿É¼ûË÷Òıspringapp1-yyyy.MM.dd-000001£¬Ë÷Òı¡£docs Êı×Ö²»Îª0
-5. kibana discover ĞÂ½¨springapp1-*£¬¿É°´µ½springbootÈÕÖ¾ÄÚÈİ£¬²¢¿ÉÕıÈ·½âÎö level¡¢TID¡¢THREADNAME¡¢messageÊä³ö
-6. kibana ²é¿´¶àĞĞ´¦ÀíÕı³£
+## éªŒè¯
+1. springboot æ—¥å¿— `/root/log.txt` æœ‰å†…å®¹
+2. æµè§ˆå™¨<http://192.168.10:8080/test> å¯çœ‹åˆ°å½“å‰ç³»ç»Ÿæ—¶é—´
+3. æµè§ˆå™¨<http://192.168.10:8080/fail> å¯`/root/log.txt` çœ‹åˆ°å¼‚å¸¸å †æ ˆä¿¡æ¯
+4. chrome head æ’ä»¶ è®¿é—®192.168.1.11:9200 å¯çœ‹åˆ°esç´¢å¼•æƒ…å†µï¼Œå¯è§ç´¢å¼•springapp1-yyyy.MM.dd-000001ï¼Œç´¢å¼•ã€‚docs æ•°å­—ä¸ä¸º0
+5. kibana discover æ–°å»ºspringapp1-*ï¼Œå¯æŒ‰åˆ°springbootæ—¥å¿—å†…å®¹ï¼Œå¹¶å¯æ­£ç¡®è§£æ levelã€TIDã€THREADNAMEã€messageè¾“å‡º
+6. kibana æŸ¥çœ‹å¤šè¡Œå¤„ç†æ­£å¸¸
 
 
-## µ÷ÊÔÌáÊ¾
-ÖØĞÂ¿ªÊ¼ÊÕ¼¯ÈÕÖ¾
-1. chrome es head ²å¼şÉ¾³ıË÷Òıspringapp1-yyyy.MM.dd-000001
-2. Í£Ö¹filebeat `systemctl stop filebeat`
-3. É¾³ıÏÖÓĞfilebeat ½ø¶È`rm -rf /var/lib/filebeat`
-4. É¾³ıfilebeat module ÔÚes»º´æ `curl XDELETE http://192.168.1.11:9200/_ingest/pipeline/filebeat-7.3.0-springboot-debug-default`
-5. ĞŞ¸Äµ÷ÊÔÎ»ÖÃ
-6. Æô¶¯filebeatÊÕ¼¯ `systemctl start filebeat`
+## è°ƒè¯•æç¤º
+é‡æ–°å¼€å§‹æ”¶é›†æ—¥å¿—
+1. chrome es head æ’ä»¶åˆ é™¤ç´¢å¼•springapp1-yyyy.MM.dd-000001
+2. åœæ­¢filebeat `systemctl stop filebeat`
+3. åˆ é™¤ç°æœ‰filebeat è¿›åº¦`rm -rf /var/lib/filebeat`
+4. åˆ é™¤filebeat module åœ¨esç¼“å­˜ `curl XDELETE http://192.168.1.11:9200/_ingest/pipeline/filebeat-7.3.0-springboot-debug-default`
+5. ä¿®æ”¹è°ƒè¯•ä½ç½®
+6. å¯åŠ¨filebeatæ”¶é›† `systemctl start filebeat`
 
-### ¹Ø¼üÈÕÖ¾
+### å…³é”®æ—¥å¿—
 
-filebeat¿ÉÒÔ¿ªÆôÈÕÖ¾£¬»òÕßÖ±½Ó´ÓÏµÍ³ÈÕÖ¾²é¿´Æô¶¯ÔËĞĞÇé¿ö
+filebeatå¯ä»¥å¼€å¯æ—¥å¿—ï¼Œæˆ–è€…ç›´æ¥ä»ç³»ç»Ÿæ—¥å¿—æŸ¥çœ‹å¯åŠ¨è¿è¡Œæƒ…å†µ
 `tail -f /var/log/message`
 
 
-## ºËĞÄµã
-filebeat springboot module(`/usr/share/filebeat/module/aipc/debug/default.json`) ½âÎöÅäÖÃ¼°logbackÈÕÖ¾¸ñÊ½Æ¥Åä
+## æ ¸å¿ƒç‚¹
+filebeat springboot module(`/usr/share/filebeat/module/aipc/debug/default.json`) è§£æé…ç½®åŠlogbackæ—¥å¿—æ ¼å¼åŒ¹é…
 
-## ¸½1£º¿ª·Å¶Ë¿ÚºÅ
+## é™„1ï¼šå¼€æ”¾ç«¯å£å·
 - filebeat 
 - kibana 5601
 - elaticsearch 9200
-- elaticsearch 9300 ¼¯ÈºÄÚTCP
+- elaticsearch 9300 é›†ç¾¤å†…TCP
 
 
-## ¸½2£º¹Ù·½ÅäÖÃ
-- https://www.elastic.co/guide/en/beats/filebeat/7.2/setup-repositories.html
+## é™„2ï¼šå®˜æ–¹é…ç½®
+- <https://www.elastic.co/guide/en/beats/filebeat/7.2/setup-repositories.html>
 
-
-## ¸½¼ÓÃüÁî
-```
-curl 'http://172.30.2.60:9200/_cat/indices?v'
-
-filebeat setup --template -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["172.30.2.60:9200"]'
-
-filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["172.30.2.60:9200"]'
-```
