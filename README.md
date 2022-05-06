@@ -132,7 +132,7 @@ systemctl restart filebeat
 
 ## 验证
 1. springboot 日志 `/root/log.txt` 有内容
-2. 浏览器<http://192.168.1.100:8080/test> 可看到当前系统时间
+2. 浏览器<http://192.168.1.100:8080/normal> 可看到返回normal，并生成日志
 3. 浏览器<http://192.168.1.100:8080/fail> 可`/root/log.txt` 看到异常堆栈信息
 4. chrome head 插件 访问 192.168.1.11:9200 可看到es索引情况，可见索引springapp1-yyyy.MM.dd-000001，索引。docs 数字不为0
 5. http://192.168.1.11:5601/ kibana discover 新建springapp1-*，可按到springboot日志内容，并可正确解析 level、TID、THREADNAME、message输出
